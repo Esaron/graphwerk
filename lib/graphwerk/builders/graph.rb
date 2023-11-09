@@ -13,7 +13,8 @@ module Graphwerk
           application: T::Hash[Symbol, Object],
           graph: T::Hash[Symbol, Object],
           node: T::Hash[Symbol, Object],
-          edge: T::Hash[Symbol, Object]
+          edge: T::Hash[Symbol, Object],
+          exclude_todos: T::Boolean
         }
       }
 
@@ -40,7 +41,8 @@ module Graphwerk
         },
         edge: {
           len: '0.4'
-        }
+        },
+        exclude_todos: false
       }, OptionsShape)
 
       sig { params(package_set: Packwerk::PackageSet, options: T::Hash[Symbol, Object], root_path: Pathname).void }
@@ -90,7 +92,7 @@ module Graphwerk
       def add_package_dependencies_to_graph
         packages.each do |package|
           draw_dependencies(package)
-          draw_todos(package)
+          draw_todos(package) unless @options[:exclude_todos]
         end
       end
 
