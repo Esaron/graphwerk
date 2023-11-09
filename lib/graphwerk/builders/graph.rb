@@ -9,7 +9,7 @@ module Graphwerk
       OptionsShape = T.type_alias {
         {
           layout: Graphwerk::Layout,
-          deprecated_references_color: String,
+          todos_color: String,
           application: T::Hash[Symbol, Object],
           graph: T::Hash[Symbol, Object],
           node: T::Hash[Symbol, Object],
@@ -19,7 +19,7 @@ module Graphwerk
 
       DEFAULT_OPTIONS = T.let({
         layout: Graphwerk::Layout::Dot,
-        deprecated_references_color: 'red',
+        todos_color: 'red',
         application: {
           style: 'filled',
           fillcolor: '#333333',
@@ -90,7 +90,7 @@ module Graphwerk
       def add_package_dependencies_to_graph
         packages.each do |package|
           draw_dependencies(package)
-          draw_deprecated_references(package)
+          draw_todos(package)
         end
       end
 
@@ -112,12 +112,12 @@ module Graphwerk
       end
 
       sig { params(package: Presenters::Package).void }
-      def draw_deprecated_references(package)
-        package.deprecated_references.each do |reference|
+      def draw_todos(package)
+        package.todos.each do |reference|
           @graph.add_edges(
             @nodes[package.name],
             @nodes[reference],
-            color: @options[:deprecated_references_color]
+            color: @options[:todos_color]
           )
         end
       end

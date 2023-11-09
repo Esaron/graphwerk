@@ -23,8 +23,8 @@ module Graphwerk
       end
 
       sig { returns(T::Array[String]) }
-      def deprecated_references
-        DeprecatedReferencesLoader.new(@package, @root_path).load.map do |reference|
+      def todos
+        PackageTodoLoader.new(@package, @root_path).load.map do |reference|
           Name.new(reference).node_name
         end
       end

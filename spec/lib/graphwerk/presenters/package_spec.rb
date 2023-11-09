@@ -44,17 +44,17 @@ module Graphwerk
         it { is_expected.to eq ['security', 'orders'] }
       end
 
-      describe '#deprecated_references' do
-        subject { presenter.deprecated_references }
+      describe '#todos' do
+        subject { presenter.todos }
 
-        let(:deprecated_references_loader) { instance_double(DeprecatedReferencesLoader) }
+        let(:todos_loader) { instance_double(PackageTodoLoader) }
 
         before do
-          expect(DeprecatedReferencesLoader)
+          expect(PackageTodoLoader)
             .to receive(:new)
             .with(package, root_path)
-            .and_return(deprecated_references_loader)
-          expect(deprecated_references_loader).to receive(:load).and_return(['.'])
+            .and_return(package_todo_todo_loader)
+          expect(package_todo_todo_loader).to receive(:load).and_return(['.'])
         end
 
         it { is_expected.to contain_exactly('Application') }

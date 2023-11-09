@@ -49,16 +49,16 @@ module Graphwerk
       describe '#build' do
         subject(:diagram) { builder.build.to_s }
 
-        let(:deprecated_references_loader_for_images) do
-          instance_double(DeprecatedReferencesLoader, load: ['.'])
+        let(:package_todos_loader_for_images) do
+          instance_double(PackageTodoLoader, load: ['.'])
         end
 
         before do
-          allow(DeprecatedReferencesLoader).to receive(:new).and_call_original
-          expect(DeprecatedReferencesLoader)
+          allow(PackageTodoLoader).to receive(:new).and_call_original
+          expect(PackageTodoLoader)
             .to receive(:new)
             .with(images_package, an_instance_of(Pathname))
-            .and_return(deprecated_references_loader_for_images)
+            .and_return(package_todos_loader_for_images)
         end
 
         specify do

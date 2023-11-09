@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module Graphwerk
-  describe DeprecatedReferencesLoader do
+  describe PackageTodoLoader do
     let(:service) { described_class.new(package, root_path) }
 
     let(:package) do
@@ -16,31 +16,31 @@ module Graphwerk
     describe '#load' do
       subject { service.load }
 
-      let(:deprecated_references_file) { instance_double(Pathname) }
+      let(:package_todo_file) { instance_double(Pathname) }
 
       before do
         expect(root_path)
           .to receive(:join)
-          .with('components/admin', 'deprecated_references.yml')
-          .and_return(deprecated_references_file)
-        expect(deprecated_references_file)
+          .with('components/admin', 'package_todo.yml')
+          .and_return(package_todo_file)
+        expect(package_todo_file)
           .to receive(:exist?)
-          .and_return(deprecated_dependency_file_is_present)
+          .and_return(package_todo_file_is_present)
       end
 
       context 'when no deprecated dependency file is present' do
-        let(:deprecated_dependency_file_is_present) { false }
+        let(:package_todo_file_is_present) { false }
 
         it { is_expected.to be_empty }
       end
 
       context 'when a deprecated dependency file is present' do
-        let(:deprecated_dependency_file_is_present) { true }
+        let(:package_todo_file_is_present) { true }
 
         before do
           expect(YAML)
             .to receive(:load_file)
-            .with(deprecated_references_file)
+            .with(package_todo_file)
             .and_return(
               '.' => {
                 "::Order" => {
